@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm"
 
 @Entity()
 export class Ftx {
-	@PrimaryGeneratedColumn({type: 'numeric'})
+	@PrimaryGeneratedColumn({type: 'integer'})
 	UserID: number
 
 	@Column({type: 'varchar'})

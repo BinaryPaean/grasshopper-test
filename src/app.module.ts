@@ -3,7 +3,6 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './database.module';
 import { FtxModule } from './ftx/ftx.module';
 
 @Module({
@@ -21,7 +20,6 @@ import { FtxModule } from './ftx/ftx.module';
         autoLoadEntities: true,
       })
     }),
-    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
