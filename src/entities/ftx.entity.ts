@@ -14,7 +14,7 @@ export class Ftx {
 	@Column({type: 'varchar'})
 	StreetAddress: string
 
-	@Column({type: 'varchar'})
+	@Column({type: 'varchar', nullable: true })
 	StreetAddress2: string
 
 	@Column({type: 'varchar'})
@@ -35,7 +35,7 @@ export class Ftx {
 	AccountNumber: number
 
 	@Column()
-	TransactionId: number
+	TransactionID: number
 
 	@Column({type: 'date'})
 	Timestamp: string
