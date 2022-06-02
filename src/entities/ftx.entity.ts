@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm"
 
 @Entity()
 export class Ftx {
-	@PrimaryGeneratedColumn({type: 'integer'})
+	@Index()
 	@Exclude()
 	UserID: number
 
@@ -43,6 +43,7 @@ export class Ftx {
 	@Column()
 	AccountNumber: number
 
+	@PrimaryGeneratedColumn({type: 'integer'})
 	@Column()
 	TransactionID: number
 
