@@ -3,52 +3,50 @@ import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm"
 
 @Entity()
 export class Ftx {
-	@Index()
-	@Exclude()
-	UserID: number
+	@Index(["UserID", "State", "EntityID"], {unique: false})
+
+	@Column({type: 'numeric'})
+	UserID: number;
 
 	@Column({type: 'varchar'})
 	@Exclude()
-	FirstName: string
+	FirstName: string;
 
 	@Column({type: 'varchar'})
 	@Exclude()
-	LastName: string
+	LastName: string;
 
 	@Column({type: 'varchar'})
 	@Exclude()
-	StreetAddress: string
+	StreetAddress: string;
 
 	@Column({type: 'varchar', nullable: true })
 	@Exclude()
-	StreetAddress2: string
+	StreetAddress2: string;
 
 	@Column({type: 'varchar'})
 	@Exclude()
-	City: string
-
-	@Index()
-	@Exclude()
-	@Column({type: 'varchar'})
-	State: string
+	City: string;
 
 	@Exclude()
 	@Column({type: 'varchar'})
-	Zip: string
+	State: string;
 
-	@Index()
+	@Exclude()
+	@Column({type: 'varchar'})
+	Zip: string;
+
 	@Column({type: 'numeric'})
-	EntityID: number
+	EntityID: number;
 
 	@Column()
-	AccountNumber: number
+	AccountNumber: number;
 
 	@PrimaryGeneratedColumn({type: 'integer'})
-	@Column()
-	TransactionID: number
+	TransactionID: number;
 
 	@Column({type: 'date'})
-	Timestamp: string
+	Timestamp: string;
 
   constructor(partial: Partial<Ftx>) {
     Object.assign(this, partial);
