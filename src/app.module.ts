@@ -1,20 +1,18 @@
-import appConfig from './app.config';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { DatabaseModule } from './database.module';
 import { FtxModule } from './ftx/ftx.module';
 
 @Module({
   imports: [
   FtxModule,
-  ConfigModule.forRoot({
-    load: [appConfig],
-  }),
+  ConfigModule.forRoot(),
   TypeOrmModule.forRootAsync({
     useFactory: () => ({
-    type: 'postgres',
+        type: 'postgres',
         host: process.env.DATABASE_HOST,
         port: +process.env.DATABASE_PORT,
         username: process.env.DATABASE_USER,
@@ -23,8 +21,10 @@ import { FtxModule } from './ftx/ftx.module';
         autoLoadEntities: true,
       })
     }),
+    DatabaseModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
+
 export class AppModule {}
