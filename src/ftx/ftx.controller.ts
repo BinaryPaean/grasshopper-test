@@ -1,34 +1,36 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Param, UseInterceptors, ClassSerializerInterceptor } from '@nestjs/common';
 import { FtxService } from './ftx.service';
 import { CreateFtxDto } from './dto/create-ftx.dto';
 import { UpdateFtxDto } from './dto/update-ftx.dto';
 
-@Controller('ftx')
+@Controller('v1/transactions')
 export class FtxController {
   constructor(private readonly ftxService: FtxService) {}
 
-  @Post()
-  create(@Body() createFtxDto: CreateFtxDto) {
-    return this.ftxService.create(createFtxDto);
+  @Get('count-by-state/:stateShortcode')
+  async CountByState(@Param('stateShortcode') stateShortcode: string): Promise<any> {
+    return {
+      count: await this.ftxService.CountByState(stateShortcode)
+    };
   }
 
-  @Get()
-  findAll() {
-    return this.ftxService.findAll();
+  @Get('count-by-entity/:entityID')
+  async CountByEntity(@Param('entityID') entityID: number): Promise<any> {
+    return {
+      count: await this.ftxService.CountByEntity(entityID),
+    };
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.ftxService.findOne(+id);
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('by-account/:accountNumber')
+  async findByAccountNumber(@Param('accountNumber') accountNumber: number): Promise<any> {
+    return await this.ftxService.findByAccountNumber(accountNumber);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateFtxDto: UpdateFtxDto) {
-    return this.ftxService.update(+id, updateFtxDto);
+  @UseInterceptors(ClassSerializerInterceptor)
+  @Get('by-entity/:entityID')
+  async findByEntity(@Param('entityID') entityId: number): Promise<any> {
+    return await this.ftxService.findByEntity(entityId);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.ftxService.remove(+id);
-  }
 }

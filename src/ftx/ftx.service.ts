@@ -15,19 +15,35 @@ export class FtxService {
     return 'This action adds a new ftx';
   }
 
-  findAll() {
-    return `This action returns all ftx`;
+  async CountByState(id: string) {
+    return await this.ftxRepository.count({
+      where: {
+        State: id
+      }
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} ftx`;
+  async CountByEntity(id: number) {
+    return await this.ftxRepository.count({
+      where: {
+        EntityID: id
+      }
+    });
   }
 
-  update(id: number, updateFtxDto: UpdateFtxDto) {
-    return `This action updates a #${id} ftx`;
+  findByAccountNumber(accountNumber: number) {
+    return this.ftxRepository.find({
+      where: {
+        AccountNumber: accountNumber
+      }
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} ftx`;
+  findByEntity(entityId: number) {
+    return this.ftxRepository.find({
+      where: {
+        EntityID: entityId
+      }
+    });
   }
 }
