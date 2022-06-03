@@ -15,6 +15,11 @@ export class FtxService {
     return 'This action adds a new ftx';
   }
 
+  // CountByState and CountByEntity could alternatively
+  // be implemented via "ftxRepository.findAndCount", but that returns
+  // more than might be desirable, given the assignment was
+  // to return the count itself. A pure count will also compile
+  // to a naturally faster query.
   async CountByState(id: string) {
     return await this.ftxRepository.count({
       where: {
@@ -31,7 +36,14 @@ export class FtxService {
     });
   }
 
-  findByAccountNumber(accountNumber: number) {
+  // We *could* check for an empty array and throw a "not found"
+  // exception for findByAccountNumber and findByEntity, but as
+  // we are not searching by transactionID, it seems inappropriate.
+  //
+  // The empty array return indicates that no such transactions were
+  // associated with a given entity ID in the data set or time range,
+  // but does not conclusivly indicate that no such entity exists
+  async findByAccountNumber(accountNumber: number) {
     return this.ftxRepository.find({
       where: {
         AccountNumber: accountNumber
@@ -39,7 +51,7 @@ export class FtxService {
     });
   }
 
-  findByEntity(entityId: number) {
+  async findByEntity(entityId: number) {
     return this.ftxRepository.find({
       where: {
         EntityID: entityId
