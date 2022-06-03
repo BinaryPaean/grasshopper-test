@@ -10,7 +10,7 @@ export class FtxController {
   @Get('count-by-state/:stateShortcode')
   async CountByState(@Param('stateShortcode') stateShortcode: string): Promise<any> {
     return {
-      count: await this.ftxService.CountByState(stateShortcode)
+      count: await this.ftxService.CountByState(stateShortcode.toUpperCase())
     };
   }
 
