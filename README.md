@@ -8,12 +8,12 @@
 
 ## Description
 
-A demonstration nestjs based endpoint that provides a limited API.
+A demonstration NestJS-based endpoint that provides 4 get endpoints as an API.
 
 ## Installation
 
 clone this repository.
-configure a .env file in the project root with the following variables set.
+create an .env file in the project root with the following variables set:
 
 ```bash
 DATABASE_USER=postgres
@@ -33,13 +33,14 @@ Finally, be aware that the host should be 'localhost' for local development (e.g
 ### Option 1: Local Dev
 
  1. '$ npm install' to bring in dependencies
- 1. Ensure you have set 'DATABASE_HOST=localhost' in the .env file.
- 2. Start the postgres docker container with:
+ 2. Ensure you have set 'DATABASE_HOST=localhost' in the .env file.
+ 3. Start the postgres docker container with:
+ 4. Run the TypeORM migrations to set up the database.
 
 ```bash
-docker-compose -f local-dev-docker-compose.yaml
+docker-compose -f local-dev-docker-compose.yaml -d
 ```
-Then, use any common npm scripts for launching the nestjs application
+Then, use NestJS-provided npm scripts for launching the nestjs application:
 
 # development
 $ npm run start
@@ -52,41 +53,37 @@ $ npm run start:prod
 
 ### Option 2: Containerized Dev
 
- 1. Ensure you have set 'DATABASE_HOST=postgres' in the .env file. (or to whatever you have renamed the database container)
+ 1. Set 'DATABASE_HOST=postgres' in your .env file. 
  2. Start the build and execution container(s) using the default docker-compose file via:
+ 3. Run the TypeORM migrations against the DB (if you didn't already do so).
  
 ```bash
 docker-compose up
 ```
+This will set running a dev-mode container you can connect to if you don't want to or can't configure a satisfactory dev environment on your local machine. You'll still want to edit files locally, though!
 
-## Test
+### Option 3: Building for Production
+
+1. Update the .env file to reflect production values for the database.
+2. Use the dockerfile to build an image:
+3. Run the image on your "production" host.
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+docker build -t <whateverImageNameYoulike>
 ```
 
-## Support
+## Is it any Good?
+[no](https://news.ycombinator.com/item?id=3067434)
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## What else Should be Done to Make this Code Legit?
 
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+So many things. Tests wouldn't be a bad start. Plumbing in facilities for whatever team logging systems are used would be another. State codes could be validated against a whitelist of real geographic areas (Ex: ISO 3166-2 and related, if international). It could also stand to have some more boilerplate code created by NestJS scaffolding stripped out. It could be improved greatly to handle the combining of standard environmental variables and .env vars better - especially by including support for separate .env and .env.dev files. Finally, if you want to put it behind a proxy for some inexplicable reason, the throttler should be reconfigured.
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
-
+Nest is [MIT licensed](LICENSE). This project itself is [WTFPL](License.txt) 
 
 ## Issues
 
+If you run around updating TypeORM, watch out for this doozie.
 https://github.com/typeorm/typeorm/issues/8810
